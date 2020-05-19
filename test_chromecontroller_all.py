@@ -19,7 +19,7 @@ handlers_stat = {}
 
 cr = ChromeController.ChromeRemoteDebugInterface(binary="google-chrome", additional_options=additional_options)
 
-for i, url in enumerate(top100_urls):
+for i, url in enumerate(top100_urls[1440:]):
     try:
         raw_source = cr.blocking_navigate_and_get_source(url)
         # time.sleep(0.3)
@@ -39,7 +39,7 @@ for i, url in enumerate(top100_urls):
 
         handlers_stat[url] = [doc_listeners, win_listeners]
         if (i%50 == 0):
-            with open('top1m_handlers_chromecontroller.txt', 'w') as f:
+            with open('top1m_handlers_chromecontroller_1440.txt', 'w') as f:
                 json.dump(handlers_stat, f)
 
         print(i, " ", url, '\n', doc_listeners, win_listeners, '\n\n')
@@ -60,7 +60,7 @@ for i, url in enumerate(top100_urls):
 
 
 
-with open('top100_handlers_chromecontroller.txt', 'w') as f:
+with open('top1m_handlers_chromecontroller_1440.txt', 'w') as f:
         json.dump(handlers_stat, f)
 
 

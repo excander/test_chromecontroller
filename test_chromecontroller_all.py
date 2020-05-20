@@ -8,9 +8,9 @@ print(time.ctime(tic), '\n')
 # url = "https://security-crawl-maze.app/javascript/frameworks/angular/"
 
 top100_urls = []
-with open('top-1m.csv') as f:
+with open('all10_urls.txt') as f:
     for line in f:
-        line = line.split(',')[1]
+        line = line.split(',')[0]  # [1] for alexa
         line = "https://" + line.strip() + '/'
         top100_urls.append(line)
 
@@ -19,7 +19,7 @@ handlers_stat = {}
 
 cr = ChromeController.ChromeRemoteDebugInterface(binary="google-chrome", additional_options=additional_options)
 
-for i, url in enumerate(top100_urls[1440:]):
+for i, url in enumerate(top100_urls[:]):
     try:
         raw_source = cr.blocking_navigate_and_get_source(url)
         # time.sleep(0.3)
@@ -39,7 +39,7 @@ for i, url in enumerate(top100_urls[1440:]):
 
         handlers_stat[url] = [doc_listeners, win_listeners]
         if (i%50 == 0):
-            with open('top1m_handlers_chromecontroller_1440.txt', 'w') as f:
+            with open('all10_res.txt', 'w') as f:
                 json.dump(handlers_stat, f)
 
         print(i, " ", url, '\n', doc_listeners, win_listeners, '\n\n')
@@ -60,7 +60,7 @@ for i, url in enumerate(top100_urls[1440:]):
 
 
 
-with open('top1m_handlers_chromecontroller_1440.txt', 'w') as f:
+with open('all10_res.txt', 'w') as f:
         json.dump(handlers_stat, f)
 
 
